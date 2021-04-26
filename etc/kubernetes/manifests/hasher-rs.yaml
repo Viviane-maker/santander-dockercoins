@@ -11,7 +11,6 @@ spec:
     metadata:
       labels:
         app: hasher-label
-        apps.openshift-ipi.sebastian-colomar.es/hasher:
     spec:
       containers:
         -
