@@ -63,6 +63,6 @@ services:
       - rng
 version: '3.8'
 volumes:
-  redis: 
+  redis-volume: 
 
 
