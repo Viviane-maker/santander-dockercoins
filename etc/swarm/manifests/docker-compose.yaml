@@ -27,7 +27,7 @@ services:
     networks:
       - redis
     volumes:
-      - redis-volume: /data
+      - redis-volume:/data
   rng:
     deploy:
       mode: global
