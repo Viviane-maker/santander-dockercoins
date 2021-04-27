@@ -1,0 +1,68 @@
+networks:
+  hasher:
+    internal: true
+  redis:
+    internal: true
+  rng:
+    internal: true
+services:
+  hasher:
+    deploy:
+      mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
+      replicas: 2
+    image: vivianemaker1/santander-dockercoins:latest-hasher
+    networks:
+      - hasher
+  redis:
+    deploy:
+      mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
+      replicas: 1
+    image: redis:alpine
+    networks:
+      - redis
+    volumes:
+      - redis-volume: /data
+  rng:
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == worker
+    image: vivianemaker1/santander-dockercoins:latest-rng
+    networks:
+      - rng
+  webui:
+    deploy:
+      mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
+      replicas: 2
+    image: vivianemaker1/santander-dockercoins:latest-webui
+    networks:
+      - redis
+    ports:
+      - 80:8080
+  worker:
+    deploy:
+      mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
+      replicas: 2
+    image: vivianemaker1/santander-dockercoins:latest-worker
+    networks:
+      - hasher
+      - redis
+      - rng
+version: '3.8'
+volumes:
+  redis: 
+
+
